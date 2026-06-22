@@ -1,0 +1,23 @@
+# Node
+node_modules/
+packages/npm/dist/
+*.tgz
+npm-debug.log*
+
+# Rust
+target/
+packages/rust/target/
+Cargo.lock
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# File Excel cũ (không dùng)
+DanhNgon_DNS.xlsx

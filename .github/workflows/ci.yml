@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  npm:
+    name: Kiểm thử thư viện npm
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/npm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  rust:
+    name: Kiểm thử crate Rust
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test

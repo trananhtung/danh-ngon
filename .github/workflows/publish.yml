@@ -1,0 +1,38 @@
+name: Publish
+
+# Tự động publish khi đẩy tag dạng v* (ví dụ v1.0.0).
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish-npm:
+    name: Publish lên npm
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/npm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+      - run: npm install
+      - run: npm test
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-crate:
+    name: Publish lên crates.io
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test
+      - run: cargo publish --token ${{ secrets.CARGO_TOKEN }}
