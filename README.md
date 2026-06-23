@@ -39,7 +39,7 @@ println!("\"{}\" — {}", q.vi, q.author);
 ```
 danh-ngon/
 ├── data/                    # Bộ dữ liệu JSON chuẩn hoá (nguồn chung)
-│   ├── quotes.json          # 31.076 danh ngôn song ngữ Anh–Việt (thư viện)
+│   ├── quotes.json          # 30.784 danh ngôn song ngữ Anh–Việt (thư viện)
 │   ├── quotes.min.json      # bản rút gọn (đóng gói vào thư viện)
 │   ├── topics.json          # chủ đề + nhãn tiếng Việt + số lượng
 │   ├── authors.json         # tác giả + số lượng
@@ -62,7 +62,7 @@ danh-ngon/
 
 ### Thư viện (`data/quotes.json`)
 
-31.076 câu danh ngôn song ngữ Anh–Việt, crawl và dịch tự động từ nhiều nguồn:
+30.784 câu danh ngôn song ngữ Anh–Việt, crawl và dịch tự động từ nhiều nguồn:
 Wikiquote (EN+VI), AZQuotes, GitHub datasets, HuggingFace và web scraping.
 
 ### Kho đầy đủ (`data/full/`)

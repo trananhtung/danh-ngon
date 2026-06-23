@@ -63,11 +63,13 @@ def rate_limited_get(url, delay=0.5, **kwargs):
     try:
         r = SESSION.get(url, timeout=20, **kwargs)
         if r.status_code == 429:
-            time.sleep(5)
+            retry_after = float(r.headers.get("Retry-After", 5))
+            time.sleep(retry_after)
             r = SESSION.get(url, timeout=20, **kwargs)
         r.raise_for_status()
         return r
-    except Exception:
+    except requests.RequestException as e:
+        print(f"  [HTTP] {url} failed: {e}", file=sys.stderr)
         return None
 
 def clean(t):
@@ -75,7 +77,7 @@ def clean(t):
         return ""
     t = t.strip()
     t = re.sub(r'\s+', ' ', t)
-    t = re.sub(r'[​‌‍﻿​-‏﻿]', '', t)
+    t = re.sub(r'[​‌‍‎‏﻿]', '', t)
     return t
 
 # ────────────────────────────────────────────────────────────────────────────
@@ -601,18 +603,16 @@ def batch_translate_text(texts, src, tgt, batch_size=20):
                     for j, t in enumerate(batch):
                         try:
                             r = GoogleTranslator(source=src, target=tgt).translate(t)
-                            results[i+j] = clean(r) if r else t
+                            results[i+j] = clean(r) if r else ""
                         except Exception:
-                            results[i+j] = t
+                            results[i+j] = ""
                         time.sleep(0.2)
                 break
             except Exception as e:
                 if attempt < 2:
                     time.sleep(2 ** attempt)
                 else:
-                    for j in range(len(batch)):
-                        if not results[i+j]:
-                            results[i+j] = batch[j]
+                    pass  # Leave as "" for re-translation
 
         time.sleep(0.3)
 
@@ -819,38 +819,66 @@ def cmd_merge(args):
 
     print(f"[Merge] Total raw: {len(all_raw)}")
 
+    # Dedup raw first (always, so we can compare count against cached translation)
+    raw_file = SCRATCHPAD / "merged_raw.json"
+    _, existing_en_copy, existing_vi_copy = load_existing()
+    seen_en = set(existing_en_copy)
+    seen_vi = set(existing_vi_copy)
+    deduped_raw = []
+    for q in all_raw:
+        en_fp = fingerprint(q.get("en", ""))
+        vi_fp = fingerprint(q.get("vi", ""))
+        if en_fp and en_fp in seen_en:
+            continue
+        if vi_fp and vi_fp in seen_vi:
+            continue
+        if en_fp:
+            seen_en.add(en_fp)
+        if vi_fp:
+            seen_vi.add(vi_fp)
+        deduped_raw.append(q)
+
+    print(f"[Merge] After initial dedup: {len(deduped_raw)}")
+    raw_file.write_text(json.dumps(deduped_raw, ensure_ascii=False))
+
     # Check if translated version exists
     trans_file = SCRATCHPAD / "merged_translated.json"
-    if trans_file.exists():
+    trans_meta_file = SCRATCHPAD / "merged_translated_meta.json"
+    force_translate = getattr(args, "force_translate", False)
+    if trans_file.exists() and not force_translate:
         translated = json.loads(trans_file.read_text())
+        # Check content hash: compare raw deduped count against cached metadata
+        cached_raw_count = None
+        if trans_meta_file.exists():
+            try:
+                cached_raw_count = json.loads(trans_meta_file.read_text()).get("raw_count")
+            except Exception:
+                pass
+        if cached_raw_count is not None and cached_raw_count != len(deduped_raw):
+            print(
+                f"[Merge] WARNING: cached translation has raw_count={cached_raw_count} "
+                f"but current deduped raw has {len(deduped_raw)} quotes. "
+                f"New quotes may be missing from translation. "
+                f"Run with --force-translate to re-translate.",
+                file=sys.stderr,
+            )
+        elif cached_raw_count is None:
+            print(
+                "[Merge] WARNING: no raw_count metadata for cached translation. "
+                "Cannot verify cache freshness. Run with --force-translate to be safe.",
+                file=sys.stderr,
+            )
         print(f"[Merge] Using pre-translated: {len(translated)} quotes")
     else:
-        # Save raw for translation
-        raw_file = SCRATCHPAD / "merged_raw.json"
-        # Dedup raw first
-        _, existing_en_copy, existing_vi_copy = load_existing()
-        seen_en = set(existing_en_copy)
-        seen_vi = set(existing_vi_copy)
-        deduped_raw = []
-        for q in all_raw:
-            en_fp = fingerprint(q.get("en", ""))
-            vi_fp = fingerprint(q.get("vi", ""))
-            if en_fp and en_fp in seen_en:
-                continue
-            if vi_fp and vi_fp in seen_vi:
-                continue
-            if en_fp:
-                seen_en.add(en_fp)
-            if vi_fp:
-                seen_vi.add(vi_fp)
-            deduped_raw.append(q)
-
-        print(f"[Merge] After initial dedup: {len(deduped_raw)}")
-        raw_file.write_text(json.dumps(deduped_raw, ensure_ascii=False))
-
+        if force_translate and trans_file.exists():
+            print("[Merge] --force-translate: ignoring cached translation, re-translating...")
         if not args.skip_translate:
             print("[Merge] Translating...")
             translated = translate_quotes_file(str(raw_file), str(trans_file))
+            # Write metadata so future runs can detect stale cache
+            trans_meta_file.write_text(
+                json.dumps({"raw_count": len(deduped_raw)}, ensure_ascii=False)
+            )
         else:
             translated = deduped_raw
             print("[Merge] Skipping translation (--skip-translate)")
@@ -922,6 +950,8 @@ def main():
 
     p_merge = sub.add_parser("merge", help="Merge all crawled data")
     p_merge.add_argument("--skip-translate", action="store_true")
+    p_merge.add_argument("--force-translate", action="store_true",
+                         help="Ignore cached merged_translated.json and re-translate")
 
     p_all = sub.add_parser("all", help="Run full pipeline")
 
@@ -945,6 +975,7 @@ def main():
         # Default: run all
         class DefaultArgs:
             skip_translate = False
+            force_translate = False
         cmd_all(DefaultArgs())
 
 if __name__ == "__main__":

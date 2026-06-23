@@ -1,0 +1,282 @@
+{
+  "total_quotes": 767590,
+  "total_files": 16,
+  "total_authors": 58024,
+  "total_topics": 18,
+  "top_authors": [
+    {
+      "name": "Khuyết danh",
+      "count": 5562
+    },
+    {
+      "name": "Tekken",
+      "count": 2795
+    },
+    {
+      "name": "Quotes about Elvis Presley",
+      "count": 1971
+    },
+    {
+      "name": "I'm Sorry I Haven't a Clue",
+      "count": 1716
+    },
+    {
+      "name": "Discworld",
+      "count": 1625
+    },
+    {
+      "name": "Roe v. Wade",
+      "count": 1309
+    },
+    {
+      "name": "Finnish proverbs",
+      "count": 1223
+    },
+    {
+      "name": "Barack Obama",
+      "count": 1196
+    },
+    {
+      "name": "Fictional last words in animated television series",
+      "count": 1094
+    },
+    {
+      "name": "Women",
+      "count": 1079
+    },
+    {
+      "name": "Roberto Clemente",
+      "count": 917
+    },
+    {
+      "name": "Donald Trump",
+      "count": 875
+    },
+    {
+      "name": "English proverbs",
+      "count": 842
+    },
+    {
+      "name": "Zero Punctuation",
+      "count": 799
+    },
+    {
+      "name": "Letitia Elizabeth Landon",
+      "count": 787
+    },
+    {
+      "name": "Last words",
+      "count": 785
+    },
+    {
+      "name": "Star Fox: Assault",
+      "count": 781
+    },
+    {
+      "name": "Love",
+      "count": 762
+    },
+    {
+      "name": "Breton proverbs",
+      "count": 754
+    },
+    {
+      "name": "Albert Einstein",
+      "count": 730
+    },
+    {
+      "name": "Dragon Ball Z: Budokai Tenkaichi 2",
+      "count": 693
+    },
+    {
+      "name": "Lois McMaster Bujold",
+      "count": 627
+    },
+    {
+      "name": "Samurai Warriors",
+      "count": 610
+    },
+    {
+      "name": "Warren Farrell",
+      "count": 601
+    },
+    {
+      "name": "A Song of Ice and Fire",
+      "count": 588
+    },
+    {
+      "name": "John F. Kennedy",
+      "count": 579
+    },
+    {
+      "name": "Poor Richard's Almanack",
+      "count": 572
+    },
+    {
+      "name": "Joe Biden",
+      "count": 571
+    },
+    {
+      "name": "Bertrand Russell",
+      "count": 567
+    },
+    {
+      "name": "Abhijit Naskar",
+      "count": 564
+    },
+    {
+      "name": "Ralph Waldo Emerson",
+      "count": 562
+    },
+    {
+      "name": "Martin Luther King Jr.",
+      "count": 560
+    },
+    {
+      "name": "Robert A. Heinlein",
+      "count": 555
+    },
+    {
+      "name": "Thomas Jefferson",
+      "count": 550
+    },
+    {
+      "name": "George W. Bush",
+      "count": 544
+    },
+    {
+      "name": "Halo 5: Guardians",
+      "count": 528
+    },
+    {
+      "name": "Abraham Lincoln",
+      "count": 523
+    },
+    {
+      "name": "War",
+      "count": 519
+    },
+    {
+      "name": "United States",
+      "count": 514
+    },
+    {
+      "name": "Life",
+      "count": 512
+    },
+    {
+      "name": "Paper Mario: The Thousand-Year Door",
+      "count": 505
+    },
+    {
+      "name": "Bob Dylan",
+      "count": 491
+    },
+    {
+      "name": "Mortal Kombat 11",
+      "count": 488
+    },
+    {
+      "name": "Last lines in animated films",
+      "count": 486
+    },
+    {
+      "name": "The Word Magazine (1904-1917)",
+      "count": 478
+    },
+    {
+      "name": "Lyndon B. Johnson",
+      "count": 477
+    },
+    {
+      "name": "Rumi",
+      "count": 474
+    },
+    {
+      "name": "Oscar Wilde",
+      "count": 465
+    },
+    {
+      "name": "Mahatma Gandhi",
+      "count": 458
+    },
+    {
+      "name": "Shadow the Hedgehog (video game)",
+      "count": 450
+    }
+  ],
+  "top_topics": [
+    {
+      "slug": "cuoc-song",
+      "count": 1735
+    },
+    {
+      "slug": "nhung-manh-ngon-tinh",
+      "count": 1032
+    },
+    {
+      "slug": "tinh-yeu",
+      "count": 637
+    },
+    {
+      "slug": "su-nghiep",
+      "count": 526
+    },
+    {
+      "slug": "tieng-anh",
+      "count": 326
+    },
+    {
+      "slug": "tinh-ban",
+      "count": 278
+    },
+    {
+      "slug": "song-chet",
+      "count": 168
+    },
+    {
+      "slug": "thoi-gian",
+      "count": 133
+    },
+    {
+      "slug": "trai-tim",
+      "count": 123
+    },
+    {
+      "slug": "giao-duc",
+      "count": 120
+    },
+    {
+      "slug": "yeu-nuoc",
+      "count": 99
+    },
+    {
+      "slug": "tri-tue",
+      "count": 84
+    },
+    {
+      "slug": "tam-hon",
+      "count": 78
+    },
+    {
+      "slug": "gia-dinh",
+      "count": 76
+    },
+    {
+      "slug": "van-minh-khoa-hoc",
+      "count": 76
+    },
+    {
+      "slug": "thanh-cong",
+      "count": 42
+    },
+    {
+      "slug": "nhung-trich-dan-hay",
+      "count": 29
+    },
+    {
+      "slug": "thay-doi",
+      "count": 27
+    }
+  ]
+}
