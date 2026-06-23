@@ -1,7 +1,7 @@
 {
   "name": "danh-ngon",
-  "version": "1.0.0",
-  "description": "Kho danh ngôn song ngữ Việt–Anh (9.000+ câu) đóng gói sẵn, không cần mạng. Tìm theo chủ đề, tác giả, từ khoá.",
+  "version": "2.0.0",
+  "description": "Kho danh ngôn song ngữ Việt–Anh (31.000+ câu song ngữ, 767.000+ kho đầy đủ) đóng gói sẵn, không cần mạng. Tìm theo chủ đề, tác giả, từ khoá.",
   "keywords": [
     "danh-ngon",
     "quotes",

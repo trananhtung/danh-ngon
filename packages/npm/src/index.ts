@@ -35,16 +35,56 @@ export interface Topic {
 /** Thống kê tổng quan về bộ dữ liệu. */
 export interface Meta {
   schemaVersion: number;
+  /** Số câu trong thư viện (bilingual EN+VI). */
   totalQuotes: number;
+  /** Số câu trong kho đầy đủ (bao gồm EN-only ở data/full/). */
+  totalQuotesFull?: number;
   totalAuthors: number;
   totalTopics: number;
   withEnglish: number;
+  withVietnamese?: number;
   source: string;
+  /** Đường dẫn đến thư mục kho đầy đủ. */
+  fullDatasetPath?: string;
+  /** Số file JSONL trong kho đầy đủ. */
+  fullDatasetFiles?: number;
+  note?: string;
 }
 
 const QUOTES: Quote[] = quotesData as Quote[];
 const TOPICS_RAW = topicsData as Record<string, { label: string; count: number }>;
 const META: Meta = metaData as Meta;
+
+// Lazy indexes – built on first use to keep initial load fast.
+let _topicIndex: Map<string, Quote[]> | null = null;
+let _authorIndex: Map<string, Quote[]> | null = null;
+
+function getTopicIndex(): Map<string, Quote[]> {
+  if (!_topicIndex) {
+    _topicIndex = new Map();
+    for (const q of QUOTES) {
+      for (const t of q.topics) {
+        const arr = _topicIndex.get(t) ?? [];
+        arr.push(q);
+        _topicIndex.set(t, arr);
+      }
+    }
+  }
+  return _topicIndex;
+}
+
+function getAuthorIndex(): Map<string, Quote[]> {
+  if (!_authorIndex) {
+    _authorIndex = new Map();
+    for (const q of QUOTES) {
+      const key = normalize(q.author);
+      const arr = _authorIndex.get(key) ?? [];
+      arr.push(q);
+      _authorIndex.set(key, arr);
+    }
+  }
+  return _authorIndex;
+}
 
 /** Bỏ dấu tiếng Việt + chuyển thường, phục vụ tìm kiếm không phân biệt dấu. */
 function normalize(text: string): string {
@@ -99,14 +139,13 @@ export interface RandomOptions {
  * @returns Một câu, hoặc `undefined` nếu bộ lọc không khớp câu nào.
  */
 export function randomQuote(opts: RandomOptions = {}): Quote | undefined {
-  let pool = QUOTES;
+  let pool: readonly Quote[];
   if (opts.topic) {
-    const t = opts.topic;
-    pool = pool.filter((q) => q.topics.includes(t));
-  }
-  if (opts.author) {
-    const a = normalize(opts.author);
-    pool = pool.filter((q) => normalize(q.author).includes(a));
+    pool = getTopicIndex().get(opts.topic) ?? [];
+  } else if (opts.author) {
+    pool = quotesByAuthor(opts.author);
+  } else {
+    pool = QUOTES;
   }
   if (pool.length === 0) return undefined;
   return pool[Math.floor(Math.random() * pool.length)];
@@ -118,14 +157,13 @@ export function randomQuote(opts: RandomOptions = {}): Quote | undefined {
  * @param n Số lượng câu muốn lấy.
  */
 export function randomQuotes(n: number, opts: RandomOptions = {}): Quote[] {
-  let pool = QUOTES.slice();
+  let pool: Quote[];
   if (opts.topic) {
-    const t = opts.topic;
-    pool = pool.filter((q) => q.topics.includes(t));
-  }
-  if (opts.author) {
-    const a = normalize(opts.author);
-    pool = pool.filter((q) => normalize(q.author).includes(a));
+    pool = getTopicIndex().get(opts.topic)?.slice() ?? [];
+  } else if (opts.author) {
+    pool = quotesByAuthor(opts.author);
+  } else {
+    pool = QUOTES.slice();
   }
   // Trộn Fisher–Yates rồi lấy n phần tử đầu.
   for (let i = pool.length - 1; i > 0; i--) {
@@ -137,22 +175,75 @@ export function randomQuotes(n: number, opts: RandomOptions = {}): Quote[] {
 
 /**
  * Lọc danh ngôn theo tác giả (so khớp một phần, không phân biệt dấu/hoa thường).
+ * Sử dụng lazy index để tối ưu hiệu năng.
  *
  * @param author Tên hoặc một phần tên tác giả.
  */
 export function quotesByAuthor(author: string): Quote[] {
   const a = normalize(author);
   if (!a) return [];
-  return QUOTES.filter((q) => normalize(q.author).includes(a));
+  const idx = getAuthorIndex();
+  // Tìm khớp chính xác trước (O(1)), rồi partial match nếu không có.
+  const exact = idx.get(a);
+  if (exact) return exact.slice();
+  const results: Quote[] = [];
+  for (const [key, quotes] of idx) {
+    if (key.includes(a)) results.push(...quotes);
+  }
+  return results;
 }
 
 /**
  * Lọc danh ngôn theo slug chủ đề (so khớp chính xác slug).
+ * Sử dụng lazy index để tối ưu hiệu năng – O(1) thay vì O(n).
  *
  * @param topic Slug chủ đề, ví dụ "tinh-yeu". Xem {@link listTopics}.
  */
 export function quotesByTopic(topic: string): Quote[] {
-  return QUOTES.filter((q) => q.topics.includes(topic));
+  return getTopicIndex().get(topic)?.slice() ?? [];
+}
+
+export interface PageResult {
+  /** Danh sách câu trong trang hiện tại. */
+  quotes: Quote[];
+  /** Số trang hiện tại (bắt đầu từ 1). */
+  page: number;
+  /** Số câu mỗi trang. */
+  pageSize: number;
+  /** Tổng số câu (trong pool sau khi lọc). */
+  total: number;
+  /** Tổng số trang. */
+  totalPages: number;
+}
+
+/**
+ * Lấy danh ngôn theo trang (pagination).
+ * Phù hợp cho UI hiển thị danh sách lớn mà không cần load toàn bộ.
+ *
+ * @param page Số trang (bắt đầu từ 1).
+ * @param pageSize Số câu mỗi trang (mặc định: 20).
+ * @param opts Lọc theo chủ đề/tác giả (tùy chọn).
+ */
+export function getPage(page: number, pageSize = 20, opts: RandomOptions = {}): PageResult {
+  let pool: Quote[];
+  if (opts.topic) {
+    pool = getTopicIndex().get(opts.topic) ?? [];
+  } else if (opts.author) {
+    pool = quotesByAuthor(opts.author);
+  } else {
+    pool = QUOTES;
+  }
+  const total = pool.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const safePage = Math.min(Math.max(1, page), totalPages);
+  const start = (safePage - 1) * pageSize;
+  return {
+    quotes: pool.slice(start, start + pageSize),
+    page: safePage,
+    pageSize,
+    total,
+    totalPages,
+  };
 }
 
 export interface SearchOptions {

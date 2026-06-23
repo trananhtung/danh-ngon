@@ -1,9 +1,9 @@
 [package]
 name = "danh-ngon"
-version = "1.0.0"
+version = "2.0.0"
 edition = "2021"
 rust-version = "1.70"
-description = "Kho danh ngôn song ngữ Việt–Anh (9.000+ câu) đóng gói sẵn, không cần mạng. Tìm theo chủ đề, tác giả, từ khoá."
+description = "Kho danh ngôn song ngữ Việt–Anh (30.000+ câu song ngữ, 767.000+ kho đầy đủ) đóng gói sẵn, không cần mạng. Tìm theo chủ đề, tác giả, từ khoá."
 license = "MIT"
 keywords = ["danh-ngon", "quotes", "vietnamese", "bilingual", "tieng-viet"]
 categories = ["text-processing", "internationalization"]

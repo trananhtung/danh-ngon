@@ -1,8 +1,8 @@
 # 📚 danh-ngon — Kho danh ngôn song ngữ Việt–Anh
 
-Hai thư viện dùng chung **một bộ dữ liệu** gồm hơn **9.000 câu danh ngôn** song ngữ
-Việt–Anh, kèm tác giả và 18 chủ đề. Dữ liệu được **đóng gói sẵn** trong thư viện —
-không cần mạng, không cần API key.
+Hai thư viện dùng chung **một bộ dữ liệu** gồm hơn **31.000 câu danh ngôn** song ngữ
+Việt–Anh, kèm tác giả và 18 chủ đề. Kho đầy đủ chứa **767.590+ câu** từ khắp thế giới.
+Dữ liệu được **đóng gói sẵn** trong thư viện — không cần mạng, không cần API key.
 
 | Hệ sinh thái | Gói | Cài đặt |
 |--------------|-----|---------|
@@ -11,7 +11,8 @@ không cần mạng, không cần API key.
 
 ## Vì sao nên dùng?
 
-- 📚 **9.000+ danh ngôn** đã khử trùng, kèm bản tiếng Anh và tên tác giả.
+- 📚 **31.000+ danh ngôn** song ngữ (Anh–Việt) đã khử trùng, kèm tên tác giả; **767.590+ câu** trong kho đầy đủ.
+- 🌍 Thu thập từ **Wikiquote** (EN+VI), AZQuotes, GitHub datasets, HuggingFace và nhiều nguồn khác.
 - 🏷️ **18 chủ đề**: cuộc sống, tình yêu, thành công, giáo dục, thời gian, sự nghiệp, gia đình…
 - 🔍 **Tìm kiếm không dấu** (gõ `hanh phuc` vẫn ra `hạnh phúc`).
 - 🎲 Lấy câu **ngẫu nhiên**, lọc theo chủ đề/tác giả.
@@ -38,12 +39,18 @@ println!("\"{}\" — {}", q.vi, q.author);
 ```
 danh-ngon/
 ├── data/                    # Bộ dữ liệu JSON chuẩn hoá (nguồn chung)
-│   ├── quotes.json          # toàn bộ danh ngôn (đẹp, dễ đọc)
+│   ├── quotes.json          # 30.784 danh ngôn song ngữ Anh–Việt (thư viện)
 │   ├── quotes.min.json      # bản rút gọn (đóng gói vào thư viện)
 │   ├── topics.json          # chủ đề + nhãn tiếng Việt + số lượng
 │   ├── authors.json         # tác giả + số lượng
-│   └── meta.json            # thống kê tổng quan
-├── scripts/build_dataset.py # chuyển .xlsm -> JSON
+│   ├── meta.json            # thống kê tổng quan
+│   └── full/                # kho đầy đủ 767.590+ câu (JSONL, 16 file)
+│       ├── manifest.json    # danh sách file và số lượng
+│       ├── quotes_001.jsonl # 50.000 câu/file
+│       └── ...
+├── scripts/
+│   ├── build_dataset.py     # chuyển .xlsm -> JSON
+│   └── crawl_quotes.py      # crawler đa nguồn (Wikiquote, AZQuotes…)
 ├── packages/
 │   ├── npm/                 # thư viện npm (TypeScript)
 │   └── rust/                # crate Rust
@@ -53,10 +60,32 @@ danh-ngon/
 
 ## Bộ dữ liệu
 
-Dữ liệu được sinh từ file Excel nguồn bằng `scripts/build_dataset.py`:
+### Thư viện (`data/quotes.json`)
+
+30.784 câu danh ngôn song ngữ Anh–Việt, crawl và dịch tự động từ nhiều nguồn:
+Wikiquote (EN+VI), AZQuotes, GitHub datasets, HuggingFace và web scraping.
+
+### Kho đầy đủ (`data/full/`)
+
+767.590+ câu chia thành 16 file JSONL, mỗi file ~50.000 câu. Phần lớn là tiếng Anh
+(từ English Wikiquote dump), các câu song ngữ tiếp tục được bổ sung qua các phiên bản sau.
+
+Đọc kho đầy đủ bằng Python:
+
+```python
+import json
+from pathlib import Path
+
+for f in sorted(Path('data/full').glob('quotes_*.jsonl')):
+    for line in f.read_text().splitlines():
+        q = json.loads(line)
+        # q = {"id": ..., "en": "...", "vi": "...", "author": "...", "topics": [...]}
+```
+
+Dữ liệu được sinh/cập nhật bằng `scripts/crawl_quotes.py`:
 
 ```bash
-python3 scripts/build_dataset.py
+python3 scripts/crawl_quotes.py all
 ```
 
 Mỗi câu có dạng:
