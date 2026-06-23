@@ -21,3 +21,6 @@ __pycache__/
 
 # File Excel cũ (không dùng)
 DanhNgon_DNS.xlsx
+
+# Full dataset (quá lớn cho git, tải từ GitHub Releases)
+data/full/*.jsonl

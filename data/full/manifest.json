@@ -1,0 +1,82 @@
+[
+  {
+    "file": "quotes_001.jsonl",
+    "count": 50000,
+    "size_mb": 18.3
+  },
+  {
+    "file": "quotes_002.jsonl",
+    "count": 50000,
+    "size_mb": 18.7
+  },
+  {
+    "file": "quotes_003.jsonl",
+    "count": 50000,
+    "size_mb": 18.4
+  },
+  {
+    "file": "quotes_004.jsonl",
+    "count": 50000,
+    "size_mb": 16.7
+  },
+  {
+    "file": "quotes_005.jsonl",
+    "count": 50000,
+    "size_mb": 13.9
+  },
+  {
+    "file": "quotes_006.jsonl",
+    "count": 50000,
+    "size_mb": 16.0
+  },
+  {
+    "file": "quotes_007.jsonl",
+    "count": 50000,
+    "size_mb": 15.1
+  },
+  {
+    "file": "quotes_008.jsonl",
+    "count": 50000,
+    "size_mb": 14.2
+  },
+  {
+    "file": "quotes_009.jsonl",
+    "count": 50000,
+    "size_mb": 18.1
+  },
+  {
+    "file": "quotes_010.jsonl",
+    "count": 50000,
+    "size_mb": 19.1
+  },
+  {
+    "file": "quotes_011.jsonl",
+    "count": 50000,
+    "size_mb": 18.3
+  },
+  {
+    "file": "quotes_012.jsonl",
+    "count": 50000,
+    "size_mb": 21.0
+  },
+  {
+    "file": "quotes_013.jsonl",
+    "count": 50000,
+    "size_mb": 18.1
+  },
+  {
+    "file": "quotes_014.jsonl",
+    "count": 50000,
+    "size_mb": 16.4
+  },
+  {
+    "file": "quotes_015.jsonl",
+    "count": 50000,
+    "size_mb": 11.2
+  },
+  {
+    "file": "quotes_016.jsonl",
+    "count": 17590,
+    "size_mb": 3.8
+  }
+]

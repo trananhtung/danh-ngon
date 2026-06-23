@@ -1,8 +1,13 @@
 {
   "schemaVersion": 1,
-  "totalQuotes": 9248,
-  "totalAuthors": 2236,
+  "totalQuotes": 30784,
+  "totalQuotesFull": 767590,
+  "totalAuthors": 11803,
   "totalTopics": 18,
-  "withEnglish": 9247,
-  "source": "full danh ngon.xlsm"
+  "withEnglish": 30784,
+  "withVietnamese": 30784,
+  "fullDatasetPath": "data/full/",
+  "fullDatasetFiles": 16,
+  "source": "wikiquote dump (EN+VI), azquotes, github datasets, huggingface, web scraping",
+  "note": "Library includes fully bilingual subset. Full dataset in data/full/ (includes EN-only quotes)."
 }
