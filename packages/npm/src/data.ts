@@ -1,14 +1,15 @@
-// File trung gian: ép kiểu dữ liệu JSON thay vì để TypeScript tự infer.
-// Tránh lỗi "Map maximum size exceeded" khi DTS build gặp 30k+ entries.
+// File trung gian: cast sang đúng type thay vì để TypeScript infer từ JSON.
+// "as unknown as T" ngăn TypeScript tạo union type khổng lồ từ 30k entries
+// (tránh lỗi "Map maximum size exceeded" khi DTS build).
 
 import type { Quote, Meta } from "./types.js";
+import quotesRaw from "../data/quotes.json";
+import topicsRaw from "../data/topics.json";
+import metaRaw from "../data/meta.json";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-export const QUOTES: Quote[] = require("../data/quotes.json") as Quote[];
+export const QUOTES: Quote[] = quotesRaw as unknown as Quote[];
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 export const TOPICS_RAW: Record<string, { label: string; count: number }> =
-  require("../data/topics.json") as Record<string, { label: string; count: number }>;
+  topicsRaw as unknown as Record<string, { label: string; count: number }>;
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-export const META: Meta = require("../data/meta.json") as Meta;
+export const META: Meta = metaRaw as unknown as Meta;
