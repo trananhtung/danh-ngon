@@ -1,7 +1,7 @@
 //! # danh-ngon
 //!
-//! Kho **danh ngôn song ngữ Việt–Anh** với hơn 9.000 câu, đóng gói sẵn ngay trong
-//! crate — không cần kết nối mạng, không cần tệp ngoài.
+//! Kho **danh ngôn song ngữ Việt–Anh** với hơn 30.000 câu song ngữ (767.000+ kho đầy đủ),
+//! đóng gói sẵn ngay trong crate — không cần kết nối mạng, không cần tệp ngoài.
 //!
 //! Dữ liệu được nhúng bằng [`include_str!`] và phân tích một lần (lazy) khi dùng lần đầu.
 //!
