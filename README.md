@@ -1,13 +1,18 @@
 # 📚 danh-ngon — Kho danh ngôn song ngữ Việt–Anh
 
-Hai thư viện dùng chung **một bộ dữ liệu** gồm hơn **31.000 câu danh ngôn** song ngữ
+[![npm version](https://img.shields.io/npm/v/danh-ngon?label=npm&color=cb3837)](https://www.npmjs.com/package/danh-ngon)
+[![crates.io](https://img.shields.io/crates/v/danh-ngon?label=crate&color=f74c00)](https://crates.io/crates/danh-ngon)
+[![CI](https://github.com/trananhtung/danh-ngon/actions/workflows/ci.yml/badge.svg)](https://github.com/trananhtung/danh-ngon/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+Hai thư viện dùng chung **một bộ dữ liệu** gồm hơn **30.000 câu danh ngôn** song ngữ
 Việt–Anh, kèm tác giả và 18 chủ đề. Kho đầy đủ chứa **767.590+ câu** từ khắp thế giới.
 Dữ liệu được **đóng gói sẵn** trong thư viện — không cần mạng, không cần API key.
 
 | Hệ sinh thái | Gói | Cài đặt |
 |--------------|-----|---------|
-| Node / JavaScript / TypeScript | [`danh-ngon`](https://www.npmjs.com/package/danh-ngon) (npm) | `npm install danh-ngon` |
-| Rust | [`danh-ngon`](https://crates.io/crates/danh-ngon) (crate) | `cargo add danh-ngon` |
+| Node / JavaScript / TypeScript | [![npm](https://img.shields.io/npm/v/danh-ngon)](https://www.npmjs.com/package/danh-ngon) | `npm install danh-ngon` |
+| Rust | [![crates.io](https://img.shields.io/crates/v/danh-ngon)](https://crates.io/crates/danh-ngon) | `cargo add danh-ngon` |
 
 ## Vì sao nên dùng?
 

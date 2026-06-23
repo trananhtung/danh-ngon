@@ -7,6 +7,14 @@
     "label": "Gia đình",
     "count": 76
   },
+  "tieng-anh": {
+    "label": "Tiếng Anh",
+    "count": 326
+  },
+  "tinh-yeu": {
+    "label": "Tình yêu",
+    "count": 637
+  },
   "giao-duc": {
     "label": "Giáo dục",
     "count": 120
@@ -15,29 +23,37 @@
     "label": "Mảnh ngôn tình",
     "count": 1032
   },
+  "tinh-ban": {
+    "label": "Tình bạn",
+    "count": 278
+  },
   "song-chet": {
     "label": "Sống & Chết",
     "count": 168
+  },
+  "tam-hon": {
+    "label": "Tâm hồn",
+    "count": 78
+  },
+  "nhung-trich-dan-hay": {
+    "label": "Trích dẫn hay",
+    "count": 29
   },
   "su-nghiep": {
     "label": "Sự nghiệp",
     "count": 526
   },
-  "thay-doi": {
-    "label": "Thay đổi",
-    "count": 27
-  },
   "thanh-cong": {
     "label": "Thành công",
     "count": 42
   },
+  "thay-doi": {
+    "label": "Thay đổi",
+    "count": 27
+  },
   "thoi-gian": {
     "label": "Thời gian",
     "count": 133
-  },
-  "tieng-anh": {
-    "label": "Tiếng Anh",
-    "count": 326
   },
   "trai-tim": {
     "label": "Trái tim",
@@ -46,22 +62,6 @@
   "tri-tue": {
     "label": "Trí tuệ",
     "count": 84
-  },
-  "nhung-trich-dan-hay": {
-    "label": "Trích dẫn hay",
-    "count": 29
-  },
-  "tam-hon": {
-    "label": "Tâm hồn",
-    "count": 78
-  },
-  "tinh-ban": {
-    "label": "Tình bạn",
-    "count": 278
-  },
-  "tinh-yeu": {
-    "label": "Tình yêu",
-    "count": 637
   },
   "van-minh-khoa-hoc": {
     "label": "Văn minh & Khoa học",
