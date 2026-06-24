@@ -1,6 +1,6 @@
 # danh-ngon
 
-> Kho **danh ngôn song ngữ Việt–Anh** với hơn **9.000 câu**, đóng gói sẵn trong thư viện — không cần kết nối mạng, không cần API key.
+> Kho **danh ngôn song ngữ Việt–Anh** với hơn **31.000 câu song ngữ**, đóng gói sẵn trong thư viện — không cần kết nối mạng, không cần API key.
 
 [![npm](https://img.shields.io/npm/v/danh-ngon.svg)](https://www.npmjs.com/package/danh-ngon)
 
@@ -8,7 +8,7 @@ Phù hợp cho: ứng dụng "danh ngôn mỗi ngày", widget, bot Telegram/Disc
 
 ## Tính năng
 
-- 📚 **9.000+ danh ngôn** kèm bản dịch tiếng Anh và tên tác giả.
+- 📚 **31.000+ danh ngôn** kèm bản dịch tiếng Anh và tên tác giả.
 - 🏷️ **18 chủ đề**: cuộc sống, tình yêu, thành công, giáo dục, thời gian, sự nghiệp, gia đình, tình bạn, trí tuệ…
 - 🔍 **Tìm kiếm không dấu** (gõ `hanh phuc` vẫn ra `hạnh phúc`).
 - 🎲 Lấy câu **ngẫu nhiên**, có thể lọc theo chủ đề/tác giả.
